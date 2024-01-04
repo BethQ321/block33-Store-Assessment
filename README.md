@@ -25,5 +25,5 @@
   - /orders should show the orders
   - /reviews should show the reviews 
   - /products/:id should show the full products description and the reviews for that product
-Optional:
+- Optional:
 - [ ] Deploy
