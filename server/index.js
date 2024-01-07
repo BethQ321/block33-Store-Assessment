@@ -20,7 +20,7 @@ const init = async()=> {
   await seed();
   console.log('create your tables and seed data');
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 5000;
   app.listen(port, ()=> {
     console.log(`listening on port ${port}`);
   });
