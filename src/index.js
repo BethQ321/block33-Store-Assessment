@@ -69,6 +69,26 @@ const App = ()=> {
     setLineItems(lineItems.filter( _lineItem => _lineItem.id !== lineItem.id));
   };
 
+  const removeOne = async(lineItem)=> {
+    const response = await axios.put(`/api/lineItems/${lineItem.id}`, {
+      quantity: lineItem.quantity - 1,
+      order_id: cart.id
+    });
+    setLineItems(lineItems.map( (lineItem) => {
+      return lineItem.id == response.data.id ? response.data: lineItem
+    }));
+  };
+
+  const addOne = async(lineItem)=> {
+    const response = await axios.put(`/api/lineItems/${lineItem.id}`, {
+      quantity: lineItem.quantity + 1,
+      order_id: cart.id
+    });
+    setLineItems(lineItems.map( (lineItem) => {
+      return lineItem.id == response.data.id ? response.data: lineItem
+    }));
+  };
+
   const cartItems = lineItems.filter((lineItem) => {
     return lineItem.order_id === cart.id
   });
@@ -102,6 +122,8 @@ const App = ()=> {
           products = { products }
           updateOrder = { updateOrder }
           removeFromCart = { removeFromCart }
+          removeOne = { removeOne }
+          addOne = { addOne }
         />
       </div>
     </div>

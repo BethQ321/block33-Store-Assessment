@@ -8,8 +8,13 @@
     justify-content: space-between;
     align-content: space-between;
     gap: 30px;
+    list-style-type: none;
 }
 
 .container > * {
     flex-grow: 1;
+    border: 1px solid black;
+    width: 300px;
+    padding: 4px;
+    
 }
