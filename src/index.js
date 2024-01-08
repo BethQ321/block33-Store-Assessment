@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import axios from 'axios';
 import { Link, HashRouter, Routes, Route } from 'react-router-dom';
+import Homepage from './Homepage';
 import Products from './Products';
 import Orders from './Orders';
 import Cart from './Cart';
@@ -99,32 +100,46 @@ const App = ()=> {
 
   return (
     <div>
-      <nav>
+      <nav className='spacing'>
+        <Link to='/'>Home</Link>
         <Link to='/products'>Products ({ products.length })</Link>
         <Link to='/orders'>Orders ({ orders.filter((order) => {return !order.is_cart}).length })</Link>
         <Link to='/cart'>Cart ({ cartCount })</Link>
       </nav>
       <div>
-        <Products
-          products={ products }
-          cartItems = { cartItems }
-          createLineItem = { createLineItem }
-          updateLineItem = { updateLineItem }
-        />
-        <Orders
-          orders = { orders }
-          products = { products }
-          lineItems = { lineItems }
-        />
-        <Cart
-          cart = { cart }
-          lineItems = { lineItems }
-          products = { products }
-          updateOrder = { updateOrder }
-          removeFromCart = { removeFromCart }
-          removeOne = { removeOne }
-          addOne = { addOne }
-        />
+        <Routes>
+
+          <Route path='/' element={<Homepage />} />
+
+          <Route path='/products' element={
+            <Products
+              products={ products }
+              cartItems = { cartItems }
+              createLineItem = { createLineItem }
+              updateLineItem = { updateLineItem }
+            />}         
+          />
+
+          <Route path='/orders' element={
+            <Orders
+              orders = { orders }
+              products = { products }
+              lineItems = { lineItems }
+            />}          
+          />
+
+          <Route path='/cart' element={
+            <Cart
+              cart = { cart }
+              lineItems = { lineItems }
+              products = { products }
+              updateOrder = { updateOrder }
+              removeFromCart = { removeFromCart }
+              removeOne = { removeOne }
+              addOne = { addOne }
+            />}          
+          />
+        </Routes>
       </div>
     </div>
   );

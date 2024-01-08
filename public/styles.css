@@ -1,5 +1,10 @@
+* {
+    box-sizing: border-box;
+}
+
 .width {
-    width: 300px;
+    width: 50%;
+    min-width: 100px;
 }
 
 .container {
@@ -14,7 +19,13 @@
 .container > * {
     flex-grow: 1;
     border: 1px solid black;
-    width: 300px;
+    width: 18%;
+    min-width: 100px;
     padding: 4px;
     
+}
+
+.spacing {
+    display: flex;
+    justify-content: space-between;
 }
