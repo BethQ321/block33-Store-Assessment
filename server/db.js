@@ -27,11 +27,11 @@ const fetchProducts = async()=> {
 
 const createProduct = async(product)=> {
   const SQL = `
-    INSERT INTO products (id, name)
-    VALUES($1, $2)
+    INSERT INTO products (id, name, price, image, description)
+    VALUES($1, $2, $3, $4, $5)
     RETURNING *
   `;
-  const response = await client.query(SQL, [ uuidv4(), product.name]);
+  const response = await client.query(SQL, [ uuidv4(), product.name, product.price, product.image, product.description]);
   return response.rows[0];
 };
 
@@ -124,7 +124,10 @@ const seed = async()=> {
     CREATE TABLE products(
       id UUID PRIMARY KEY,
       created_at TIMESTAMP DEFAULT now(),
-      name VARCHAR(100) UNIQUE NOT NULL
+      name VARCHAR(100) UNIQUE NOT NULL,
+      price INTEGER, 
+      image VARCHAR(100),
+      description TEXT
     );
 
     CREATE TABLE orders(
@@ -144,15 +147,15 @@ const seed = async()=> {
 
   `;
   await client.query(SQL);
-  const [foo, bar, bazz, quq] = await Promise.all([
-    createProduct({ name: 'foo' }),
-    createProduct({ name: 'bar' }),
-    createProduct({ name: 'bazz' }),
-    createProduct({ name: 'quq' }),
+  const [celebration, emoji, fantasy, candy] = await Promise.all([
+    createProduct({ name: 'Celebration Cake', price: 14999, image: '../public/images/celebration_cake.jpg', description: 'Celebration cakes can be made to order with your specific color scheme, flavors, or number in mind.  They can also be ordered in a two-tiered round or square version. Customized letters also make great celebration cakes.' }),
+    createProduct({ name: 'Emoji Cupcakes', price: 2999, image: '../public/images/emoji_cupcakes.jpg', description: 'Emoji cupcakes come in four varieties: poop emoji, smiley emoji, laughing emoji, or silly emoji (with tongue sticking out).  You will receive 1 dozen cupcakes with your chosen emoji.  Poop emoji cupcakes default to chocolate.  All other emoji cupcakes have a default of lemon flavor.  Please include other flavor requests in the comments when ordering.' }),
+    createProduct({ name: 'Fantasy Cake', price: 9999, image: '../public/images/fantasy_cake.jpg', description: 'Fantasy cakes are a three-layered cake with your choice of frosting and fillings.  Fantasy cakes can have one of four themes: fairies, unicorns, aliens, or robots.  Robot aliens is also an option.' }),
+    createProduct({ name: 'Candy Cake', price: 5999, image: '../public/images/candy_cake.jpg', description: 'The candy cake can come in a variety of flavor choices: Skittles, M&Ms, Reeses, Hersheys, Sour Patch, or Suckers.  You can also choose a variety of chocolate or a variety of fruit-flavored candy for an additional $10 charge.  All frostings and flavorings will match your chosen candy flavor(s).' }),
   ]);
   let orders = await fetchOrders();
   let cart = orders.find(order => order.is_cart);
-  let lineItem = await createLineItem({ order_id: cart.id, product_id: foo.id});
+  let lineItem = await createLineItem({ order_id: cart.id, product_id: celebration.id});
   lineItem.quantity++;
   await updateLineItem(lineItem);
   cart.is_cart = false;
