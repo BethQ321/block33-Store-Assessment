@@ -6,6 +6,7 @@ import Homepage from './Homepage';
 import Products from './Products';
 import Orders from './Orders';
 import Cart from './Cart';
+import SingleProduct from './SingleProduct';
 
 const App = ()=> {
   const [products, setProducts] = useState([]);
@@ -139,6 +140,16 @@ const App = ()=> {
               addOne = { addOne }
             />}          
           />
+
+          <Route path='/products/:id' element={
+            <SingleProduct
+              products={ products }
+              cartItems = { cartItems }
+              createLineItem = { createLineItem }
+              updateLineItem = { updateLineItem }
+            />}         
+          />
+          
         </Routes>
       </div>
     </div>
